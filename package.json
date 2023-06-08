@@ -1,0 +1,25 @@
+{
+  "name": "nlp-blog",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "autoprefixer": "10.4.14",
+    "graphql": "^16.6.0",
+    "graphql-request": "^6.0.0",
+    "html-react-parser": "^3.0.15",
+    "moment": "^2.29.4",
+    "next": "13.3.0",
+    "postcss": "8.4.21",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-multi-carousel": "^2.8.3",
+    "sass": "^1.62.0",
+    "tailwindcss": "3.3.1"
+  }
+}

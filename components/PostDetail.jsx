@@ -26,6 +26,14 @@ const PostDetail = ({ post }) => {
             if (obj.href) {
                 modifiedText = (<a href={obj.href} key={index} className="text-pink-500 hover:underline">{obj.children.map((item, itemIndex) => getContentFragment(itemIndex, item.text, item))}</a>);
             }
+
+            if (obj.type === 'list-item') {
+                modifiedText = (<li key={index} className="ml-4 mb-4">{obj.children.map((item, itemIndex) => getContentFragment(itemIndex, item.text, item))}</li>);
+            }
+
+            if (obj.type === 'list-item-child') {
+                modifiedText = obj.children.map((item, itemIndex) => getContentFragment(itemIndex, item.text, item));
+            }         
         }
 
         switch (type) {
@@ -43,6 +51,11 @@ const PostDetail = ({ post }) => {
                 return <pre key={index} className="bg-gray-200 p-4 rounded-lg mb-8 whitespace-pre-wrap">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</pre>;
             case 'block-quote':
                 return <blockquote key={index} className="border-l-4 border-pink-500 pl-4 mb-8">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</blockquote>;
+            case 'bulleted-list':
+                return <ul key={index} className="list-disc list-outside mb-8">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</ul>;
+            case 'numbered-list':
+                return <ol key={index} className="list-decimal list-outside mb-8">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</ol>;
+
             case 'image':
                 return (
                     <img

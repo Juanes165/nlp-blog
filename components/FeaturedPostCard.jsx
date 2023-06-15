@@ -10,7 +10,7 @@ const FeaturedPostCard = ({ post }) => (
     <div className="flex flex-col rounded-lg p-4 items-center justify-center absolute w-full h-full">
       <p className="text-white mb-4 text-shadow font-semibold text-xs">{moment(post.createdAt).format('MMM DD, YYYY')}</p>
       <p className="text-white mb-4 text-shadow font-semibold text-lg px-6 xl:p-none xl:text-2xl text-center">{post.title}</p>
-      <div className="flex items-center absolute bottom-5 w-full justify-center">
+      <div className="flex justify-center items-center absolute bottom-5 w-full px-2">
         <Image
           unoptimized
           alt={post.author.name}
@@ -19,7 +19,7 @@ const FeaturedPostCard = ({ post }) => (
           className="align-middle drop-shadow-lg rounded-full"
           src={post.author.photo.url}
         />
-        <p className="inline align-middle text-white text-shadow ml-2 font-medium">{post.author.name}</p>
+        <span className="inline align-middle text-white text-shadow ml-2 w-2/3 2xl:w-fit">{post.author.name}</span>
       </div>
     </div>
     <Link href={`/post/${post.slug}`}><span className="cursor-pointer absolute w-full h-full" /></Link>

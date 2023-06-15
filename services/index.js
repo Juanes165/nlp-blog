@@ -7,6 +7,7 @@ export const getPosts = async () => {
     query Assets {
         postsConnection {
           edges {
+            cursor
             node {
               author {
                 bio
@@ -49,6 +50,8 @@ export const getPostDetails = async (slug) => {
         photo {
           url
         }
+        fullName
+        email
       }
       createdAt
       slug

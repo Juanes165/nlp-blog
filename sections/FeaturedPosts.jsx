@@ -6,8 +6,12 @@ import { FeaturedPostCard } from '../components';
 import { getFeaturedPosts } from '../services';
 
 const responsive = {
+  extraLargeDesktop: {
+    breakpoint: { max: 4000, min: 1280 },
+    items: 5,
+  },
   superLargeDesktop: {
-    breakpoint: { max: 4000, min: 1024 },
+    breakpoint: { max: 1280, min: 1024 },
     items: 4,
   },
   desktop: {

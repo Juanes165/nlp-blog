@@ -3,81 +3,138 @@ import moment from "moment";
 
 const PostDetail = ({ post }) => {
 
-    const getContentFragment = (index, text, obj, type) => {
-        let modifiedText = text;
-
-        if (obj) {
+    const getContentFragment = (obj, index) => {
+        let modifiedText = obj.text;
+        if (obj.text) {
             if (obj.bold) {
-                modifiedText = (<b key={index}>{text}</b>);
+                modifiedText = (<b key={index}>{modifiedText}</b>);
             }
 
             if (obj.italic) {
-                modifiedText = (<em key={index}>{text}</em>);
+                modifiedText = (<em key={index}>{modifiedText}</em>);
             }
 
             if (obj.underline) {
-                modifiedText = (<u key={index}>{text}</u>);
+                modifiedText = (<u key={index}>{modifiedText}</u>);
             }
 
             if (obj.code) {
-                modifiedText = (<code className="bg-gray-100 p-2 rounded-lg mb-8" key={index}>{text}</code>);
+                modifiedText = (<code className="bg-gray-100 p-2 rounded-lg mb-8" key={index}>{modifiedText}</code>);
             }
+            return modifiedText;
+        };
 
-            if (obj.href) {
-                modifiedText = (<a href={obj.href} key={index} className="text-pink-500 hover:underline">{obj.children.map((item, itemIndex) => getContentFragment(itemIndex, item.text, item))}</a>);
-            }
+        switch (obj.type) {
 
-            if (obj.type === 'list-item') {
-                modifiedText = (<li key={index} className="ml-4 mb-4">{obj.children.map((item, itemIndex) => getContentFragment(itemIndex, item.text, item))}</li>);
-            }
-
-            if (obj.type === 'list-item-child') {
-                modifiedText = obj.children.map((item, itemIndex) => getContentFragment(itemIndex, item.text, item));
-            }         
-        }
-
-        switch (type) {
+            // Headers
             case 'heading-one':
-                return <h1 key={index} className="text-3xl font-semibold mb-4">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</h1>;
+                return <h1 key={index} className="text-3xl font-semibold mb-4">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</h1>;
             case 'heading-two':
-                return <h2 key={index} className="text-2xl font-semibold mb-4">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</h2>;
+                return <h2 key={index} className="text-2xl font-semibold mb-4">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</h2>;
             case 'heading-three':
-                return <h3 key={index} className="text-xl font-semibold mb-4">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</h3>;
+                return <h3 key={index} className="text-xl font-semibold mb-4">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</h3>;
             case 'heading-four':
-                return <h4 key={index} className="text-md font-semibold mb-4">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</h4>;
-            case 'paragraph':
-                return <p key={index} className="mb-8">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</p>;
-            case 'code-block':
-                return <pre key={index} className="bg-gray-200 p-4 rounded-lg mb-8 whitespace-pre-wrap">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</pre>;
-            case 'block-quote':
-                return <blockquote key={index} className="border-l-4 border-pink-500 pl-4 mb-8">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</blockquote>;
-            case 'bulleted-list':
-                return <ul key={index} className="list-disc list-outside mb-8">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</ul>;
-            case 'numbered-list':
-                return <ol key={index} className="list-decimal list-outside mb-8">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</ol>;
+                return <h4 key={index} className="text-lg font-semibold mb-4">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</h4>;
+            case 'heading-five':
+                return <h5 key={index} className="text-md font-semibold mb-4">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</h5>;
+            case 'heading-six':
+                return <h6 key={index} className="text-md font-semibold mb-4">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</h6>;
 
+            // Parrafo
+            case 'paragraph':
+                return <p key={index} className="mb-8">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</p>;
+            case 'link':
+                return <a key={index} className="text-pink-500 hover:underline" href={obj.href} target="_blank">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</a>;
+
+            // Bloque de codigo
+            case 'code-block':
+                return <pre key={index} className="bg-gray-200 p-4 rounded-lg mb-8 whitespace-pre-wrap">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</pre>;
+
+            // Cita
+            case 'block-quote':
+                return <blockquote key={index} className="border-l-4 border-pink-500 pl-4 mb-8">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</blockquote>;
+
+            // Listas con puntos y numeros
+            case 'bulleted-list':
+                return <ul key={index} className="list-disc list-outside mb-8">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</ul>;
+            case 'numbered-list':
+                return <ol key={index} className="list-decimal list-outside mb-8">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</ol>;
+
+            // Hijos de las listas (para renderizar los items de cada lista)
+            case 'list-item':
+                return <li key={index} className="ml-4 mb-4">{obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}</li>;
+            case 'list-item-child':
+                return obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>);
+
+            // Tablas
+            case 'table':
+                return (
+                    <div className="overflow-x-auto mb-8" key={index}>
+                        <table key={index} className="table-auto mb-8 w-full">
+                            {obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}
+                        </table>
+                    </div>
+                );
+            case 'table_body':
+                return (
+                    <tbody key={index}>
+                        {obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}
+                    </tbody>
+                );
+            case 'table_row':
+                return (
+                    <tr key={index}>
+                        {obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}
+                    </tr>
+                );
+            case 'table_cell':
+                return (
+                    <td key={index} className="border border-gray-400 p-2">
+                        {obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}
+                    </td>
+                );
+            
+            // Imagenes
             case 'image':
                 return (
                     <img
                         key={index}
-                        alt={obj.title}
+                        alt=""
                         height={obj.height}
                         width={obj.width}
                         src={obj.src}
                         className="h-full w-full rounded-lg mb-8"
                     />
                 );
-            default:
-                return modifiedText;
-        }
-    };
 
+            // Iframe
+            case 'iframe':
+                return (
+                    <iframe
+                        key={index}
+                        height={obj.height}
+                        width={obj.width}
+                        src={obj.url}
+                        className="rounded-lg mb-8"
+                    />
+                );
+
+            // Classname personalizados
+            case 'class':
+                return (
+                    <div key={index} className={obj.className}>
+                        {obj.children.map((item, i) => <React.Fragment key={i}>{getContentFragment(item, i)}</React.Fragment>)}
+                    </div>
+                );
+        }
+    }
+    
     return (
-        <div className="bg-white shadow-lg rounded-lg lg:p-8 pb12 mb-8">
+        <div className="bg-white shadow-lg rounded-lg lg:p-8 pb-8 mb-8">
             <div className="relative overflow-hidden shadow-md mb-6">
                 <img
                     src={post.featuredImage.url}
-                    alt={post.title}
+                    alt=""
                     className="object-top h-full w-full rounded-t-lg"
                 />
             </div>
@@ -102,14 +159,13 @@ const PostDetail = ({ post }) => {
                         </span>
                     </div>
                 </div>
-                <h1 className="mb-8 text-3xl font-semibold">
+                <h1 className="mb-8 text-4xl font-semibold">
                     {post.title}
                 </h1>
                 {/* {console.log(post.content.raw)} */}
-                {post.content.raw.children.map((typeObj, index) => {
-                    const children = typeObj.children.map((item, itemIndex) => getContentFragment(itemIndex, item.text, item));
+                {post.content.raw.children.map((obj, index) => {
 
-                    return getContentFragment(index, children, typeObj, typeObj.type);
+                    return getContentFragment(obj, index);
                 })}
             </div>
         </div>

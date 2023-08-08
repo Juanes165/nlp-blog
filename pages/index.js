@@ -10,6 +10,10 @@ export default function Home({ posts }) {
       <Head>
         <title>PLN con Deep Learning</title>
         <link rel='icon' href='/favicon.ico' />
+        <meta name='author' content='Raúl Ernesto Gutiérrez de Piñerez Reyes' />
+        <meta name='description' content='Curso de Procesamiento de Lenguaje Natural con Deep Learning' />
+        <meta name='keywords' content='PLN, Transformers, Embeddings, NER' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
       <FeaturedPosts />
       <div className='grid grid-cols-1 lg:grid-cols-12 gap-12'>

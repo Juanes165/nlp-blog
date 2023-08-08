@@ -1,6 +1,9 @@
 import React from "react";
 import moment from "moment";
 
+import { MathJax, MathJaxContext } from "util/better-react-mathjax";
+import { mathjaxConfig } from "util/mathjax-config";
+
 const PostDetail = ({ post }) => {
 
     const getContentFragment = (obj, index) => {
@@ -21,6 +24,7 @@ const PostDetail = ({ post }) => {
             if (obj.code) {
                 modifiedText = (<code className="bg-gray-100 p-2 rounded-lg mb-8" key={index}>{modifiedText}</code>);
             }
+            //return (<MathJax>{modifiedText}</MathJax>);
             return modifiedText;
         };
 
@@ -163,10 +167,14 @@ const PostDetail = ({ post }) => {
                     {post.title}
                 </h1>
                 {/* {console.log(post.content.raw)} */}
-                {post.content.raw.children.map((obj, index) => {
+                <MathJaxContext version={3} config={mathjaxConfig}>
+                    <MathJax className="overflow-auto">
+                        {post.content.raw.children.map((obj, index) => {
 
-                    return getContentFragment(obj, index);
-                })}
+                            return getContentFragment(obj, index);
+                        })}
+                    </MathJax>
+                </MathJaxContext>
             </div>
         </div>
     )

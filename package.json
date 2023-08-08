@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "autoprefixer": "10.4.14",
+    "better-react-mathjax": "^2.0.2",
     "graphql": "^16.6.0",
     "graphql-request": "^6.0.0",
     "html-react-parser": "^3.0.15",
